@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merchant Payments - Secure Banking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #fd79a8;
+            --light: #f8f9fa;
+            --dark: #2d3436;
+            --success: #00b894;
+            --danger: #d63031;
+            --warning: #fdcb6e;
+            --info: #0984e3;
+            --dmart: #FF6B6B;
+            --panshop: #4ECDC4;
+            --bakery: #FFBE76;
+            --nandini: #45B7D1;
+            --supermarket: #A55EEA;
+            --pharmacy: #26DE81;
+            --electronics: #778CA3;
+            --clothing: #FC5C65;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Navigation */
+        .sidebar {
+            width: 250px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 30px 0;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+        
+        .logo h2 {
+            color: white;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            color: var(--accent);
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-bottom: 5px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            gap: 15px;
+        }
+        
+        .nav-link i {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 4px solid var(--accent);
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px 0 0 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            color: var(--dark);
+            overflow-y: auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+        
+        .user-name {
+            font-weight: 500;
+        }
+        
+        .logout-btn {
+            background: rgba(108, 92, 231, 0.1);
+            color: var(--primary);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(108, 92, 231, 0.2);
+        }
+        
+        /* Merchant Grid */
+        .merchant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .merchant-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-top: 5px solid var(--primary);
+            cursor: pointer;
+        }
+        
+        .merchant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+        
+        .merchant-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dmart { background: var(--dmart); }
+        .panshop { background: var(--panshop); }
+        .bakery { background: var(--bakery); }
+        .nandini { background: var(--nandini); }
+        .supermarket { background: var(--supermarket); }
+        .pharmacy { background: var(--pharmacy); }
+        .electronics { background: var(--electronics); }
+        .clothing { background: var(--clothing); }
+        
+        .merchant-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .merchant-card p {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        
+        .merchant-card .category {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(108, 92, 231, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        /* Payment Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-header h2 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+            transition: all 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: var(--danger);
+        }
+        
+        .merchant-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .merchant-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .merchant-details h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .merchant-details p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+            outline: none;
+        }
+        
+        .fingerprint-upload {
+            text-align: center;
+            padding: 25px;
+            border: 2px dashed var(--secondary);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(162, 155, 254, 0.05);
+        }
+        
+        .fingerprint-upload:hover {
+            border-color: var(--primary);
+            background: rgba(108, 92, 231, 0.05);
+        }
+        
+        .fingerprint-upload i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .fingerprint-upload:hover i {
+            color: var(--accent);
+        }
+        
+        .fingerprint-upload p {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            width: 100%;
+            margin-top: 10px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.6);
+        }
+        
+        .btn-secondary {
+            background: #f1f1f1;
+            color: #666;
+            box-shadow: none;
+        }
+        
+        .btn-secondary:hover {
+            background: #e1e1e1;
+            color: #444;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: white;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .alert i {
+            font-size: 1.2rem;
+        }
+        
+        .alert-success {
+            background: linear-gradient(to right, var(--success), #55efc4);
+        }
+        
+        .alert-danger {
+            background: linear-gradient(to right, var(--danger), #ff7675);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 20px;
+            }
+            
+            .nav-menu {
+                display: flex;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .nav-item {
+                margin-bottom: 0;
+                margin-right: 10px;
+            }
+            
+            .nav-link {
+                padding: 10px 15px;
+                white-space: nowrap;
+            }
+            
+            .main-content {
+                border-radius: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .merchant-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .user-profile {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <h2><i class="fas fa-shield-alt"></i> SecurePay</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="{{ url_for('dashboard') }}" class="nav-link">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="fas fa-store"></i> Merchant Payments
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('dashboard') }}" class="nav-link">
+                        <i class="fas fa-exchange-alt"></i> Transfers
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('logout') }}" class="nav-link">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1><i class="fas fa-store"></i> Merchant Payments</h1>
+                <div class="user-profile">
+                    <div class="user-avatar">{{ user['Name'][0]|upper }}</div>
+                    <div class="user-name">{{ user['Name'] }}</div>
+                </div>
+            </div>
+            
+            {% if error %}
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle"></i>
+                    {{ error }}
+                </div>
+            {% endif %}
+            
+            {% if success %}
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    {{ success }}
+                </div>
+            {% endif %}
+            
+            <p>Select a merchant to make payment. Your fingerprint will be required for authentication.</p>
+            
+            <div class="merchant-grid">
+                <!-- DMart -->
+                <div class="merchant-card" onclick="openPaymentModal('DMart', 'dmart')">
+                    <div class="merchant-icon dmart">
+                        <i class="fas fa-shopping-basket"></i>
+                    </div>
+                    <h3>DMart</h3>
+                    <p>Supermarket chain offering groceries, household items and more at discounted prices</p>
+                    <span class="category">Supermarket</span>
+                </div>
+                
+                <!-- Pan Shop -->
+                <div class="merchant-card" onclick="openPaymentModal('Pan Shop', 'panshop')">
+                    <div class="merchant-icon panshop">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Pan Shop</h3>
+                    <p>Authentic Indian pan and mouth fresheners with premium quality ingredients</p>
+                    <span class="category">Food</span>
+                </div>
+                
+                <!-- SLV Bakery -->
+                <div class="merchant-card" onclick="openPaymentModal('SLV Bakery', 'bakery')">
+                    <div class="merchant-icon bakery">
+                        <i class="fas fa-bread-slice"></i>
+                    </div>
+                    <h3>SLV Bakery</h3>
+                    <p>Freshly baked breads, cakes, pastries and confectionery items since 1985</p>
+                    <span class="category">Bakery</span>
+                </div>
+                
+                <!-- Nandini Stall -->
+                <div class="merchant-card" onclick="openPaymentModal('Nandini Stall', 'nandini')">
+                    <div class="merchant-icon nandini">
+                        <i class="fas fa-wine-bottle"></i>
+                    </div>
+                    <h3>Nandini Stall</h3>
+                    <p>Karnataka's favorite dairy products including milk, curd, ghee and sweets</p>
+                    <span class="category">Dairy</span>
+                </div>
+                
+                <!-- Supermarket 24x7 -->
+                <div class="merchant-card" onclick="openPaymentModal('Supermarket 24x7', 'supermarket')">
+                    <div class="merchant-icon supermarket">
+                        <i class="fas fa-store-alt"></i>
+                    </div>
+                    <h3>Supermarket 24x7</h3>
+                    <p>24 hour convenience store with all your daily needs available round the clock</p>
+                    <span class="category">Convenience</span>
+                </div>
+                
+                <!-- MedPlus Pharmacy -->
+                <div class="merchant-card" onclick="openPaymentModal('MedPlus Pharmacy', 'pharmacy')">
+                    <div class="merchant-icon pharmacy">
+                        <i class="fas fa-prescription-bottle-alt"></i>
+                    </div>
+                    <h3>MedPlus Pharmacy</h3>
+                    <p>Your trusted pharmacy for medicines, health products and medical equipment</p>
+                    <span class="category">Pharmacy</span>
+                </div>
+                
+                <!-- ElectroWorld -->
+                <div class="merchant-card" onclick="openPaymentModal('ElectroWorld', 'electronics')">
+                    <div class="merchant-icon electronics">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h3>ElectroWorld</h3>
+                    <p>Latest electronics, gadgets, appliances and tech accessories at best prices</p>
+                    <span class="category">Electronics</span>
+                </div>
+                
+                <!-- Fashion Hub -->
+                <div class="merchant-card" onclick="openPaymentModal('Fashion Hub', 'clothing')">
+                    <div class="merchant-icon clothing">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h3>Fashion Hub</h3>
+                    <p>Trendy clothing, footwear and accessories for men, women and children</p>
+                    <span class="category">Apparel</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-money-bill-wave"></i> Make Payment</h2>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            
+            <div class="merchant-info">
+                <div class="merchant-logo" id="merchantLogo">
+                    <i class="fas fa-store"></i>
+                </div>
+                <div class="merchant-details">
+                    <h3 id="merchantName">Merchant Name</h3>
+                    <p id="merchantCategory">Category</p>
+                </div>
+            </div>
+            
+            <form id="paymentForm" action="{{ url_for('transfer') }}" method="POST" enctype="multipart/form-data">
+                <input type="hidden" id="merchantAccount" name="to_account" value="">
+                
+                <div class="form-group">
+                    <label for="from_account">From Account</label>
+                    <select class="form-control" id="from_account" name="from_account" required>
+                        {% for account in accounts %}
+                        <option value="{{ account['account_number'] }}">
+                            {{ account['account_number'] }} - ₹{{ account['balance'] }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="amount">Amount (₹)</label>
+                    <input type="number" class="form-control" id="amount" name="amount" min="0.01" step="0.01" placeholder="Enter amount" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Biometric Verification</label>
+                    <div class="fingerprint-upload" onclick="document.getElementById('fingerprint').click()">
+                        <i class="fas fa-fingerprint"></i>
+                        <p id="fingerprint-text">Click to upload your registered fingerprint</p>
+                        <input type="file" id="fingerprint" name="fingerprint" accept="image/*" required style="display: none;"
+                            onchange="validateFingerprint(this)">
+                    </div>
+                    <small class="text-muted">Must upload the same fingerprint used during registration</small>
+                </div>
+                <button class="btn">
+                    <i class="fas fa-paper-plane"></i> capture fingerprint
+                </button>               
+                <button type="submit" class="btn">
+                    <i class="fas fa-paper-plane"></i> Confirm Payment
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Merchant account numbers (these would be real in production)
+        const merchantAccounts = {
+            'dmart': 'DMART00123456789',
+            'panshop': 'PANSHOP987654321',
+            'bakery': 'SLVBAKERY456123',
+            'nandini': 'NANDINI789123456',
+            'supermarket': 'SUPER247891234',
+            'pharmacy': 'MEDPLUS45678912',
+            'electronics': 'ELECTRO78912345',
+            'clothing': 'FASHION12345678'
+        };
+        
+        // Merchant colors for logo
+        const merchantColors = {
+            'dmart': 'var(--dmart)',
+            'panshop': 'var(--panshop)',
+            'bakery': 'var(--bakery)',
+            'nandini': 'var(--nandini)',
+            'supermarket': 'var(--supermarket)',
+            'pharmacy': 'var(--pharmacy)',
+            'electronics': 'var(--electronics)',
+            'clothing': 'var(--clothing)'
+        };
+        
+        // Merchant icons
+        const merchantIcons = {
+            'dmart': 'fas fa-shopping-basket',
+            'panshop': 'fas fa-utensils',
+            'bakery': 'fas fa-bread-slice',
+            'nandini': 'fas fa-wine-bottle',
+            'supermarket': 'fas fa-store-alt',
+            'pharmacy': 'fas fa-prescription-bottle-alt',
+            'electronics': 'fas fa-laptop',
+            'clothing': 'fas fa-tshirt'
+        };
+        
+        function openPaymentModal(merchantName, merchantId) {
+            const modal = document.getElementById('paymentModal');
+            const merchantNameEl = document.getElementById('merchantName');
+            const merchantLogo = document.getElementById('merchantLogo');
+            const merchantAccount = document.getElementById('merchantAccount');
+            
+            // Set merchant details
+            merchantNameEl.textContent = merchantName;
+            merchantAccount.value = merchantAccounts[merchantId];
+            
+            // Style the merchant logo
+            merchantLogo.style.backgroundColor = merchantColors[merchantId];
+            merchantLogo.innerHTML = `<i class="${merchantIcons[merchantId]}"></i>`;
+            
+            // Show modal
+            modal.style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+        
+        function validateFingerprint(input) {
+            const fingerprintText = document.getElementById('fingerprint-text');
+            if (input.files.length > 0) {
+                const fileName = input.files[0].name;
+                fingerprintText.textContent = `Selected: ${fileName}`;
+                
+                // Check if filename matches expected pattern (ID_Name_fingerprint.png)
+                const parts = fileName.split('_');
+                if (parts.length < 3 || !fileName.endsWith('_fingerprint.png')) {
+                    fingerprintText.style.color = 'var(--danger)';
+                    fingerprintText.textContent += ' (Invalid format)';
+                } else {
+                    fingerprintText.style.color = 'var(--primary)';
+                }
+            }
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('paymentModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeoBank - Modern Banking Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-light: #a29bfe;
+            --accent: #fd79a8;
+            --light: #f8f9fa;
+            --dark: #2d3436;
+            --success: #00b894;
+            --danger: #d63031;
+            --warning: #fdcb6e;
+            --info: #0984e3;
+            --glass: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+            background-attachment: fixed;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 1200px;
+            overflow: hidden;
+            margin: 0 auto;
+            color: var(--dark);
+            border: 1px solid var(--glass-border);
+            transform: translateY(0);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 25px 40px;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 30px rgba(108, 92, 231, 0.3);
+            z-index: 2;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+            opacity: 0.5;
+            z-index: -1;
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 600;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .header-btn {
+            background: var(--glass);
+            color: white;
+            border: 1px solid var(--glass-border);
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            text-decoration: none;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .header-btn i {
+            font-size: 1.1rem;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 40px rgba(108, 92, 231, 0.1);
+            border-left: 5px solid var(--accent);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .user-profile:hover {
+            transform: translateY(-5px);
+        }
+        
+        .user-profile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.05) 0%, rgba(162, 155, 254, 0.02) 100%);
+            z-index: 0;
+        }
+        
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--primary-light));
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.8rem;
+            margin-right: 30px;
+            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.4);
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .user-profile:hover .user-avatar {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(108, 92, 231, 0.5);
+        }
+        
+        .user-info {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .user-info h2 {
+            margin-bottom: 10px;
+            color: var(--dark);
+            font-size: 2rem;
+            font-weight: 600;
+        }
+        
+        .user-info p {
+            color: #666;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.05rem;
+        }
+        
+        .user-info i {
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            margin: 40px 0 25px;
+            font-size: 1.6rem;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(108, 92, 231, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 600;
+        }
+        
+        .section-title i {
+            background: rgba(108, 92, 231, 0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+        
+        .accounts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .account-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border-top: 5px solid var(--primary);
+        }
+        
+        .account-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.03) 0%, rgba(162, 155, 254, 0.01) 100%);
+            z-index: 0;
+        }
+        
+        .account-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(108, 92, 231, 0.2);
+        }
+        
+        .account-card h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .account-card h3 i {
+            background: rgba(108, 92, 231, 0.1);
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .account-card p {
+            margin-bottom: 12px;
+            color: #666;
+            position: relative;
+            z-index: 1;
+            font-size: 1.05rem;
+        }
+        
+        .account-card p strong {
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        .balance {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin: 25px 0 10px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        
+        .balance span {
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: 400;
+            margin-bottom: 5px;
+        }
+        
+        .transaction-form {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(108, 92, 231, 0.1);
+            padding: 40px;
+            margin-top: 50px;
+            border-left: 5px solid var(--info);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .transaction-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(9, 132, 227, 0.03) 0%, rgba(25, 181, 254, 0.01) 100%);
+            z-index: 0;
+        }
+        
+        .transaction-form h2 {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .form-group {
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 1.15rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 18px 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+            outline: none;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 18px 30px;
+            border-radius: 12px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 1.15rem;
+            width: 100%;
+            margin-top: 20px;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(108, 92, 231, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(108, 92, 231, 0.5);
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .alert {
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            color: white;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .alert::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+            z-index: -1;
+        }
+        
+        .alert i {
+            font-size: 1.8rem;
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, var(--success), #55efc4);
+        }
+        
+        .alert-danger {
+            background: linear-gradient(135deg, var(--danger), #ff7675);
+        }
+        
+        .fingerprint-upload {
+            text-align: center;
+            padding: 35px;
+            border: 2px dashed var(--primary-light);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(162, 155, 254, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .fingerprint-upload:hover {
+            border-color: var(--primary);
+            background: rgba(108, 92, 231, 0.05);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(108, 92, 231, 0.1);
+        }
+        
+        .fingerprint-upload i {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .fingerprint-upload:hover i {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+        
+        .fingerprint-upload p {
+            color: #666;
+            font-size: 1.15rem;
+            font-weight: 500;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* Floating animation for cards */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .account-card:nth-child(odd) {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .account-card:nth-child(even) {
+            animation: float 6s ease-in-out infinite 1s;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 15px;
+                margin: 0;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                padding: 25px;
+                text-align: center;
+            }
+            
+            .header-buttons {
+                width: 100%;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .header-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .accounts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-profile {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px;
+            }
+            
+            .user-avatar {
+                margin-right: 0;
+                margin-bottom: 25px;
+            }
+            
+            .user-info p {
+                justify-content: center;
+            }
+            
+            .content {
+                padding: 25px;
+            }
+            
+            .transaction-form {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-shield-alt"></i> NeoBank Dashboard</h1>
+            <div class="header-buttons">
+                <a href="{{ url_for('merchant') }}" class="header-btn">
+                    <i class="fas fa-store"></i> Merchant Payments
+                </a>
+                <a href="{{ url_for('logout') }}" class="header-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+        
+        <div class="content">
+            {% if error %}
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle"></i>
+                    {{ error }}
+                </div>
+            {% endif %}
+            
+            {% if success %}
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    {{ success }}
+                </div>
+            {% endif %}
+            
+            <div class="user-profile">
+                <div class="user-avatar">
+                    {{ user['Name'][0]|upper }}
+                </div>
+                <div class="user-info">
+                    <h2>{{ user['Name'] }}</h2>
+                    <p><i class="fas fa-envelope"></i> {{ user['Email'] }}</p>
+                    <p><i class="fas fa-phone"></i> {{ user['Phone'] }}</p>
+                    <p><i class="fas fa-id-card"></i> Customer ID: {{ user['Id'] }}</p>
+                </div>
+            </div>
+            
+            <h2 class="section-title"><i class="fas fa-piggy-bank"></i> Your Accounts</h2>
+            
+            <div class="accounts-grid">
+                {% for account in accounts %}
+                <div class="account-card">
+                    <h3><i class="fas fa-credit-card"></i> Account {{ loop.index }}</h3>
+                    <p><strong>Account Number:</strong> {{ account['account_number'] }}</p>
+                    <p><strong>IFSC Code:</strong> {{ account['ifsc_code'] }}</p>
+                    <p><strong>Branch:</strong> {{ account['branch'] }}</p>
+                    <div class="balance">₹{{ account['balance'] }} <span>Available Balance</span></div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="transaction-form">
+                <h2 class="section-title"><i class="fas fa-money-bill-wave"></i> Transfer Funds</h2>
+                
+                <form action="{{ url_for('transfer') }}" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="from_account">From Account</label>
+                        <select class="form-control" id="from_account" name="from_account" required>
+                            {% for account in accounts %}
+                            <option value="{{ account['account_number'] }}">
+                                {{ account['account_number'] }} - ₹{{ account['balance'] }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="to_account">To Account Number</label>
+                        <input type="text" class="form-control" id="to_account" name="to_account" placeholder="Enter recipient's account number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="amount">Amount to Transfer (₹)</label>
+                        <input type="number" class="form-control" id="amount" name="amount" min="0.01" step="0.01" placeholder="Enter amount" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Biometric Verification</label>
+                        <div class="fingerprint-upload" onclick="document.getElementById('fingerprint').click()">
+                            <i class="fas fa-fingerprint"></i>
+                            <p id="fingerprint-text">Click to upload your registered fingerprint</p>
+                            <input type="file" id="fingerprint" name="fingerprint" accept="image/*" required style="display: none;"
+                                onchange="validateFingerprint(this)">
+                        </div>
+                        <small class="text-muted">Must upload the same fingerprint used during registration</small>
+                    </div>
+                    
+
+                    <button class="btn">
+                        <i class="fas fa-paper-plane"></i> capture fingerprint
+                    </button>
+                    <button type="submit" class="btn">
+                        <i class="fas fa-paper-plane"></i> Confirm Transfer
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function validateFingerprint(input) {
+            const fingerprintText = document.getElementById('fingerprint-text');
+            if (input.files.length > 0) {
+                const fileName = input.files[0].name;
+                fingerprintText.textContent = `Selected: ${fileName}`;
+                
+                // Check if filename matches expected pattern (ID_Name_fingerprint.png)
+                const parts = fileName.split('_');
+                if (parts.length < 3 || !fileName.endsWith('_fingerprint.png')) {
+                    fingerprintText.style.color = 'var(--danger)';
+                    fingerprintText.textContent += ' (Invalid format)';
+                } else {
+                    fingerprintText.style.color = 'var(--primary)';
+                }
+            }
+        }
+
+        // Add subtle animations to elements when they come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateOnScroll = function() {
+                const elements = document.querySelectorAll('.user-profile, .account-card, .transaction-form');
+                
+                elements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.2;
+                    
+                    if (elementPosition < screenPosition) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }
+                });
+            };
+            
+            // Set initial state for animation
+            const animatedElements = document.querySelectorAll('.user-profile, .account-card, .transaction-form');
+            animatedElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            });
+            
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Trigger on load in case elements are already visible
+        });
+    </script>
+</body>
+</html>

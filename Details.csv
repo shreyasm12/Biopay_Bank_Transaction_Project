@@ -1,0 +1,8 @@
+Id,Name,Phone,Email,Account_Number,IFSC_Code,Branch,Amount,Fingerprint_Path
+1,nagesh,9900990099,nagesh@gmail.com,12345,2222,bangalore,0.0,1_nagesh_fingerprint.png
+1,nagesh,9900990099,nagesh@gmail.com,123456789,1111,Kolar,26903.0,1_nagesh_fingerprint.png
+1,nagesh,9900990099,nagesh@gmail.com,987456321,3333,chintamani,787900.0,1_nagesh_fingerprint.png
+2,shreyas,7899995043,shreyasm050@gmail.com,9900990099,ABC003,BANGALORE,29330.0,2_shreyas_fingerprint.png
+
+1AP21CS042,Shreyas M,7899995043,shreyasm050@gmail.com,0987654321,APS007411,somanahalli,7000,1AP21CS042_Shreyas_M_fingerprint.png
+1AP21CS046,SUDARSHAN C S,9380542533,sudarshansudhi432003@gmail.com,283291634189,APS009380,BANGALORE,7000,1AP21CS046_SUDARSHAN_C_S_fingerprint.png
